@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3 class="float-end">{{date}}</h3>
+    </div>
+    <div class="col-12">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo ratione impedit beatae, provident veniam
+        perferendis amet, eos voluptatum dolorum assumenda ea optio! Quaerat officiis numquam dignissimos ab, pariatur
+        ratione alias!
+      </p>
+      <p>One deposite checking</p>
+    </div>
+    <div class="col-12 border border-dark signature-container mx-auto" >
+      <div class="text-center">
+        <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()"
+        (onEndEvent)="drawComplete()" ></signature-pad>
+      </div>
+    </div>
+    <div class="col-12">
+      <p style="text-align: center;">Please sign here</p>
+      <p style="text-align: center;">shashi saurabh Sinnha</p>
+    </div>
+    <div class="col-12">
+      <div class="row">
+        <div class="col-6">
+          <button class="btn btn-warning" (click)="clearSignature()">Cancel</button>
+  
+        </div>
+        <div class="col-6">
+          <button class="btn btn-success float-end" (click)="submitConsent()">Submit</button>
+  
+        </div>
+      </div>
+      
+    
+    </div>
+  </div>
+</div>
