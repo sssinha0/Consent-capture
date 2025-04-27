@@ -1,1 +1,7 @@
-<app-signature-capture></app-signature-capture>
+@if (!this.consentProvided) {
+    <app-signature-capture></app-signature-capture>
+
+} @else {
+    <app-consent-acknowledge></app-consent-acknowledge>
+
+}

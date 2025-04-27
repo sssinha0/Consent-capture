@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewC
 import { WebsocketService } from '../websocket.service';
 import { SignaturePadModule } from 'angular-signature-pad-v2';
 import { SignaturePad } from 'angular-signature-pad-v2';
+import { SessionService } from '../session.service';
 @Component({
   selector: 'app-signature-capture',
   standalone: true,
@@ -21,18 +22,14 @@ export class SignatureCaptureComponent implements OnInit {
     penColor: 'red'
   };
   sessionId: any;
-  constructor(){
+  constructor(private webScketService: WebsocketService, private session: SessionService) {
 
   }
   ngOnInit(): void {
-
   }
-  
+
 
   ngAfterViewInit() {
-    // this.signaturePad is now available
-    // this.signaturePad.set('minWidth', 1);
-    // this.signaturePad.set('color','red') // set szimek/signature_pad options at runtime
   }
 
   drawComplete() {
@@ -43,32 +40,24 @@ export class SignatureCaptureComponent implements OnInit {
   drawStart() {
     // will be notified of szimek/signature_pad's onBegin event
     console.log('begin drawing');
+    
+    this.webScketService.connect();
+
   }
   clearSignature() {
     this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
 
   }
-  submitConsent() {
-      const signatureData = this.signaturePad.toDataURL();
-      const consent = { sessionId: this.sessionId, signatureData };
+  async submitConsent() {
+    await this.session.startSession();
 
-      // fetch('http://localhost:8081/api/consent', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(consent),
-      // })
-      //   .then(response => {
-      //     if (response.ok) {
-      //       alert('Consent Submitted');
-      //       this.websocketService.sendMessage('/app/consent', { sessionId: this.sessionId });
-      //     } else {
-      //       alert('Failed to submit consent');
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.error('Error:', error);
-      //   });
-    }
+    const signatureData = this.signaturePad.toDataURL();
+    let data = JSON.parse(sessionStorage.getItem("session") ?? '');
+    // const consent = { sessionId: data.id, signatureData };
+    const consentData = {
+      sessionId: data.id,
+      signatureData: signatureData
+    };
+          this.webScketService.sendMessage('/app/send-consent',consentData);
+  }
 }
