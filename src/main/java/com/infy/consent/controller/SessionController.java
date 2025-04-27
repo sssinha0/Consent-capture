@@ -10,6 +10,7 @@ import java.time.Duration;
 
 @RestController
 @RequestMapping("/api/session")
+@CrossOrigin(origins = "*")
 public class SessionController {
 
     @Autowired
