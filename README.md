@@ -1,59 +1,90 @@
-# ConsentCaptureUi
+# 🖋️ Customer Consent Capture Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+> A two-page web application to capture customer signature consent and acknowledgment using **Spring Boot (Java)** and **Angular 17** with **WebSocket (STOMP)** for real-time synchronization.
 
-## Development server
+---
 
-To start a local development server, run:
+## 📦 Tech Stack
 
-```bash
-ng serve
-```
+- **Frontend**: Angular 17, ngx-signaturepad, WebSocket (SockJS, STOMP)
+- **Backend**: Spring Boot 3, WebSocket, REST API
+- **Communication**: WebSocket (STOMP protocol) + REST
+- **Database**: (Optional) JDBC, JPA (to store signed consent)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🚀 Setup Instructions
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Backend (Spring Boot)
 
 ```bash
-ng generate --help
+cd backend
+./mvnw spring-boot:run
 ```
 
-## Building
+- Starts on: `http://localhost:8081`
+- WebSocket endpoint: `/ws`
+- REST API endpoint: `/api/session/start`
 
-To build the project run:
+---
+
+### Frontend (Angular)
 
 ```bash
-ng build
+cd frontend
+npm install
+npm run dev
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Starts on: `http://localhost:4200`
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🛠️ Main Features
 
-```bash
-ng test
-```
+- Admin can **start a consent session**.
+- Customer can **sign** using signature pad.
+- Signature is captured as **Base64 image**.
+- **Real-time updates** using WebSocket.
+- **Duplicate session prevention** (optional enhancement).
+- **Session timeout** control (optional enhancement).
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## ⚡ Key Endpoints
 
-```bash
-ng e2e
-```
+| Method | Endpoint                  | Description                |
+|:-------|:---------------------------|:----------------------------|
+| `POST` | `/api/session/start`        | Start a new consent session |
+| `WS`   | `/ws` (`/app/send-consent`)  | Submit signed consent |
+| `WS`   | `/topic/consent-saved`       | Listen for consent saved |
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 📷 UI Preview
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+> _(Add screenshots later if needed)_
+
+- **Page 1**: Signature Capture
+- **Page 2**: Consent Acknowledgment
+
+---
+
+## 📋 Future Enhancements
+
+- Store consent forms in database
+- Add session expiration/timeout
+- Add authentication for Admin
+- Export signature as PDF
+- Audit trail of consents
+
+---
+
+## 🧑‍💻 Developer Notes
+
+- WebSocket auto reconnects on network failure.
+- Signature pad is fully responsive.
+- Backend uses simple in-memory storage for sessions (can be extended to DB).
+---
+
+# 🔥 Let's Go!
